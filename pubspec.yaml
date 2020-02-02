@@ -25,6 +25,9 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_advanced_networkimage: ^0.6.0-alpha.1
   google_fonts: ^0.3.3
+  rxdart:
+  http:
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:
