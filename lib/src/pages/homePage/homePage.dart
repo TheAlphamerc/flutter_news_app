@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app/src/commonWidget/customWidget.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
 
 import 'widget/newsCard.dart';
@@ -14,8 +15,7 @@ class _HomePageState extends State<HomePage> {
       alignment: Alignment.bottomCenter,
       children: <Widget>[
         Hero(tag: 'headerImage', 
-          child:Image.network(
-            'https://www.channelnomics.com/wp-content/uploads/2019/04/surface-Hub-2s-770x515.jpg'),
+          child: customImage('https://www.channelnomics.com/wp-content/uploads/2019/04/surface-Hub-2s-770x515.jpg'),
         ),
         Container(
           padding: EdgeInsets.only(left: 30, right: 40, bottom: 20),
@@ -38,6 +38,21 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
+        currentIndex: 0,
+        fixedColor: Theme.of(context).primaryColorLight,
+        type: BottomNavigationBarType.shifting,
+        unselectedItemColor: Theme.of(context).primaryColor,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home),title: Text('Home')),
+          BottomNavigationBarItem(icon: Icon(Icons.search),title: Text('Home')),
+          BottomNavigationBarItem(icon: Icon(Icons.play_arrow),title: Text('Home')),
+          BottomNavigationBarItem(icon: Icon(Icons.person),title: Text('Home')),
+        ],
+        elevation: 5,
+      ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: <Widget>[

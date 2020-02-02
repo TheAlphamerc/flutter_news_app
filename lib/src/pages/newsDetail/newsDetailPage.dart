@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app/src/commonWidget/customWidget.dart';
 import 'package:flutter_news_app/src/helpers/constants.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
 
@@ -16,8 +17,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
       children: <Widget>[
         Hero(
           tag: 'headerImage',
-          child: Image.network(
-              'https://www.channelnomics.com/wp-content/uploads/2019/04/surface-Hub-2s-770x515.jpg'),
+          child:customImage('https://www.channelnomics.com/wp-content/uploads/2019/04/surface-Hub-2s-770x515.jpg'),
         ),
         Container(
           padding: EdgeInsets.only(left: 0, right: 10, bottom: 20),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app/src/commonWidget/customWidget.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
 
 class NewsCard extends StatelessWidget {
@@ -23,7 +24,7 @@ class NewsCard extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: Container(
                       color: Theme.of(context).primaryColor,
-                      child: Image.network(
+                      child: customImage(
                           'https://techcrunch.com/wp-content/uploads/2020/01/GettyImages-957211010.jpg?w=600',
                           fit: BoxFit.cover)),
                 )),
