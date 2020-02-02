@@ -39,13 +39,13 @@ class AppTheme {
    static TextStyle h1Style =
       const TextStyle(color: LightColor.titleTextColor, fontSize: 24,fontWeight: FontWeight.bold);
   static TextStyle h2Style =
-      const TextStyle(color: LightColor.subTitleTextColor, fontSize: 22);
+      const TextStyle(color: LightColor.titleTextColor, fontSize: 22);
   static TextStyle h3Style =
-      const TextStyle(color: LightColor.subTitleTextColor, fontSize: 20);
+      const TextStyle(color: LightColor.titleTextColor, fontSize: 20);
   static TextStyle h4Style =
-      const TextStyle(color: LightColor.subTitleTextColor, fontSize: 18);
+      const TextStyle(color: LightColor.titleTextColor, fontSize: 18);
   static TextStyle h5Style =
-      const TextStyle(color: LightColor.subTitleTextColor, fontSize: 16);
+      const TextStyle(color: LightColor.titleTextColor, fontSize: 16);
   static TextStyle h6Style =
-      const TextStyle(color: LightColor.subTitleTextColor, fontSize: 14);
+      const TextStyle(color: LightColor.titleTextColor, fontSize: 14);
 }

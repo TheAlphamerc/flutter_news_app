@@ -5,8 +5,8 @@ class LightColor {
    static  const Color purple = Color(0XFFA89FDE);
    static  const Color lightpurple = Color(0XFFC9B3EA);
    static  const Color darkpurple = Color(0XFF83679A);
-   static const Color titleTextColor = const Color(0xff130F11);
-   static const Color subTitleTextColor = const Color(0xff797878);
+   static const Color  titleTextColor = const Color(0xff130F11);
+   static const Color  subTitleTextColor = const Color(0xff797878);
    static  const Color grey = Color(0xff9D99A7);
    static  const Color darkgrey = Color(0xff625f6a);
 

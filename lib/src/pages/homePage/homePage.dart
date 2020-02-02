@@ -3,18 +3,20 @@ import 'package:flutter_news_app/src/theme/theme.dart';
 
 import 'widget/newsCard.dart';
 
-class MyHomePage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   Widget _headerNews() {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: <Widget>[
-        Image.network(
+        Hero(tag: 'headerImage', 
+          child:Image.network(
             'https://www.channelnomics.com/wp-content/uploads/2019/04/surface-Hub-2s-770x515.jpg'),
+        ),
         Container(
           padding: EdgeInsets.only(left: 30, right: 40, bottom: 20),
           child: Column(
@@ -36,25 +38,32 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          SliverToBoxAdapter(
-            child: _headerNews(),
-          ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              NewsCard(),
-              NewsCard(),
-              NewsCard(),
-              NewsCard(),
-              NewsCard(),
-              NewsCard(),
-              NewsCard(),
-            ]),
-          )
-        ],
-      ),
-    ));
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              centerTitle: true,
+              title: Text('NEWS',style: AppTheme.h2Style.copyWith(color:Theme.of(context).colorScheme.primaryVariant),),
+              backgroundColor: Theme.of(context).backgroundColor,
+              pinned: true,
+            ),
+            SliverToBoxAdapter(
+              child: _headerNews(),
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate([
+                NewsCard(),
+                NewsCard(),
+                NewsCard(),
+                NewsCard(),
+                NewsCard(),
+                NewsCard(),
+                NewsCard(),
+              ]),
+            )
+          ],
+        ),
+      )
+    );
   }
 }
