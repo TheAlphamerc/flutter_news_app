@@ -3,6 +3,7 @@ import 'package:flutter_news_app/src/commonWidget/bottomNavigationBar.dart';
 
 import 'category/categoryPage.dart';
 import 'homePage/homePage.dart';
+import 'profile/profilePage.dart';
 
 class NewsApp extends StatefulWidget {
   NewsApp({Key key}) : super(key: key);
@@ -23,7 +24,8 @@ class _NewsAppState extends State<NewsApp> {
           HomePage(),
           CategoryPage(
             controller: _controller,
-          )
+          ),
+          ProfilePage(),
         ],
       ),
     );
