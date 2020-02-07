@@ -83,7 +83,7 @@ class ProfilePage extends StatelessWidget {
           ),
           SizedBox(width: 10),
           Text(text,
-              style: AppTheme.h3Style.copyWith(
+              style: AppTheme.h4Style.copyWith(
                 fontWeight: FontWeight.bold,
                 color: color,
               )),
@@ -141,7 +141,7 @@ class ProfilePage extends StatelessWidget {
                         context, Icons.lightbulb_outline, 'Night', true),
                     _settingRow(
                         context, Icons.notifications, 'Notification', false),
-                    SizedBox(height: 10),
+                    // SizedBox(height: 10),
                     _settingRow(context, Icons.share, 'Social Media', false),
                     SizedBox(height: 5),
                     Divider(

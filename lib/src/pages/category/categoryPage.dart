@@ -17,7 +17,7 @@ class _CategoryPageState extends State<CategoryPage> {
     return InkWell(
         onTap: () {
           bloc.setCagegory = type;
-          widget.controller.animateToPage(0,
+          widget.controller.animateTo(0,
               duration: Duration(milliseconds: 300), curve: Curves.linear);
         },
         child: Stack(

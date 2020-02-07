@@ -6,8 +6,25 @@ import 'package:flutter_news_app/src/blocks/newsBloc.dart';
 
 class NewsCard extends StatelessWidget {
   final Article artical;
-  const NewsCard({Key key, this.artical}) : super(key: key);
-
+  final bool isVideoNews;
+  const NewsCard({Key key, this.artical, this.isVideoNews = false}) : super(key: key);
+  Widget _playWidget(BuildContext context){
+    return SizedBox(
+        height:20,
+        child:FittedBox(
+          fit: BoxFit.contain,
+          child: Container(
+              height: 10,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape:BoxShape.circle,
+                color:Theme.of(context).backgroundColor
+              ),
+             child:Icon(Icons.play_arrow,color:Theme.of(context).disabledColor,size: 3,)
+           )
+        )
+      );
+  }
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -25,15 +42,21 @@ class NewsCard extends StatelessWidget {
               AspectRatio(
                   aspectRatio: 1,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Container(
-                        color: Theme.of(context).primaryColor,
-                        child: artical.urlToImage == null ||
-                                artical.urlToImage.isEmpty
-                            ? Container()
-                            : customImage(artical.urlToImage,
-                                fit: BoxFit.cover)),
-                  )),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: <Widget>[
+                          Container(
+                              color: Theme.of(context).primaryColor,
+                              child: artical.urlToImage == null ||
+                                      artical.urlToImage.isEmpty
+                                  ? Container()
+                                  : customImage(artical.urlToImage,
+                                      fit: BoxFit.cover)),
+                          isVideoNews ? _playWidget(context) 
+                          : Container()
+                        ],
+                      ))),
               SizedBox(width: 10),
               Expanded(
                   child: Column(
@@ -44,7 +67,7 @@ class NewsCard extends StatelessWidget {
                     height: 52,
                     child: Text(
                       artical.title,
-                      style: AppTheme.titleStyle,
+                      style: AppTheme.h6Style,
                       overflow: TextOverflow.fade,
                     ),
                   ),

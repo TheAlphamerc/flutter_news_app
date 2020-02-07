@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/src/commonWidget/bottomNavigationBar.dart';
 
+import 'VideoNews/videoNewsPage.dart';
 import 'category/categoryPage.dart';
 import 'homePage/homePage.dart';
 import 'profile/profilePage.dart';
@@ -22,6 +23,7 @@ class _NewsAppState extends State<NewsApp> {
         controller: _controller,
         children: <Widget>[
           HomePage(),
+          VideoNewsPage(),
           CategoryPage(
             controller: _controller,
           ),
