@@ -5,4 +5,8 @@ class Repository {
   final moviesApiProvider = NewsApiProvider();
 
   Future<List<Article>> fetchAllNews({String category = ''}) => moviesApiProvider.fetchNewsList(category:category);
+
+  Future<Article> setDetailNews(Article article)async{
+   Future.value(article);
+  }
 }

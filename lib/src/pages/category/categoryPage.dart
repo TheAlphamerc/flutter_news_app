@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/src/blocks/newsBloc.dart';
-import 'package:flutter_news_app/src/commonWidget/bottomNavigationBar.dart';
 import 'package:flutter_news_app/src/commonWidget/customWidget.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
 
@@ -16,7 +14,7 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget _categoryCard(String text, String type, String imgPath) {
     return InkWell(
         onTap: () {
-          bloc.setCagegory = type;
+          // bloc.setCagegory = type;
           widget.controller.animateTo(0,
               duration: Duration(milliseconds: 300), curve: Curves.linear);
         },

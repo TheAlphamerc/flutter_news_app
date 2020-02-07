@@ -9,9 +9,9 @@ class NewsApiProvider {
   Future<List<Article>> fetchNewsList({String category = ''}) async {
     var url =
         "${Constant.baseUrl}${Constant.topHeadLine}?country=in&apiKey=$_apiKey&category=$category";
-    print("entered Url : $url");
+    // print("entered Url : $url");
     final response = await client.get(url);
-    print(response.body.toString());
+    // print(response.body.toString());
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
       return NewsApiResonse.fromRawJson(response.body).articles;

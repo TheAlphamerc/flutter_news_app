@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_news_app/src/bloc/simple_bloc_delegate.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
 import 'src/helpers/routes.dart';
-import 'src/pages/homePage/homePage.dart';
+import 'src/pages/homePage/bloc/bloc.dart';
+import 'src/pages/newsDetail/bloc/bloc.dart';
+import 'src/resources/repository.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: AppTheme.lightTheme,
-      debugShowCheckedModeBanner: false,
-      routes: Routes.getRoute(),
-    );
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<NewsBloc>(
+            create: (context) =>
+                NewsBloc(repository: Repository())..add(Fetch()),
+          ),
+          BlocProvider<DetailBloc>(create: (context) => DetailBloc()),
+        ],
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: AppTheme.lightTheme,
+          debugShowCheckedModeBanner: false,
+          routes: Routes.getRoute(),
+        ));
   }
 }

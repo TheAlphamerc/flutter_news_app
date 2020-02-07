@@ -1,35 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_news_app/src/commonWidget/customWidget.dart';
 import 'package:flutter_news_app/src/models/newsResponseModel.dart';
+import 'package:flutter_news_app/src/pages/newsDetail/bloc/bloc.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
-import 'package:flutter_news_app/src/blocks/newsBloc.dart';
 
 class NewsCard extends StatelessWidget {
   final Article artical;
   final bool isVideoNews;
-  const NewsCard({Key key, this.artical, this.isVideoNews = false}) : super(key: key);
-  Widget _playWidget(BuildContext context){
+  const NewsCard({Key key, this.artical, this.isVideoNews = false})
+      : super(key: key);
+  Widget _playWidget(BuildContext context) {
     return SizedBox(
-        height:20,
-        child:FittedBox(
-          fit: BoxFit.contain,
-          child: Container(
-              height: 10,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                shape:BoxShape.circle,
-                color:Theme.of(context).backgroundColor
-              ),
-             child:Icon(Icons.play_arrow,color:Theme.of(context).disabledColor,size: 3,)
-           )
-        )
-      );
+        height: 20,
+        child: FittedBox(
+            fit: BoxFit.contain,
+            child: Container(
+                height: 10,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).backgroundColor),
+                child: Icon(
+                  Icons.play_arrow,
+                  color: Theme.of(context).disabledColor,
+                  size: 3,
+                ))));
   }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          bloc.setNews = artical;
+          final detailBloc = BlocProvider.of<DetailBloc>(context);
+          detailBloc.add(SelectNewsForDetail(article: artical));
           Navigator.pushNamed(context, '/detail');
         },
         child: Container(
@@ -53,8 +57,7 @@ class NewsCard extends StatelessWidget {
                                   ? Container()
                                   : customImage(artical.urlToImage,
                                       fit: BoxFit.cover)),
-                          isVideoNews ? _playWidget(context) 
-                          : Container()
+                          isVideoNews ? _playWidget(context) : Container()
                         ],
                       ))),
               SizedBox(width: 10),
@@ -81,7 +84,7 @@ class NewsCard extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                         ),
                         child: Text(
-                          bloc.getGategory,
+                          'Tips',
                           style: AppTheme.h6Style.copyWith(
                               color: Theme.of(context).colorScheme.onPrimary),
                         ),

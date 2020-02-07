@@ -1,36 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/src/blocks/newsBloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_news_app/src/commonWidget/customWidget.dart';
 import 'package:flutter_news_app/src/models/newsResponseModel.dart';
+import 'package:flutter_news_app/src/pages/homePage/bloc/bloc.dart';
 import 'package:flutter_news_app/src/pages/homePage/widget/newsCard.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
 
-class VideoNewsPage extends StatefulWidget {
-  @override
-  _VideoNewsPageState createState() => _VideoNewsPageState();
-}
-
-class _VideoNewsPageState extends State<VideoNewsPage> {
-  @override
-  void initState() {
-    bloc.fetchAllNews();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    bloc.dispose();
-    super.dispose();
-  }
-
-  Widget _headerNews(Article article) {
+class VideoNewsPage extends StatelessWidget {
+  Widget _headerNews(BuildContext context, Article article) {
     return InkWell(
         onTap: () {
-          bloc.setNews = article;
           Navigator.pushNamed(context, '/detail');
         },
         child: Container(
-            margin: EdgeInsets.only(left:20,right: 20,bottom:30),
+            margin: EdgeInsets.only(left: 20, right: 20, bottom: 30),
             width: MediaQuery.of(context).size.width * 6,
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
@@ -39,8 +22,7 @@ class _VideoNewsPageState extends State<VideoNewsPage> {
                   children: <Widget>[
                     Hero(
                       tag: 'headerImage',
-                      child:
-                          customImage(article.urlToImage, fit: BoxFit.cover),
+                      child: customImage(article.urlToImage, fit: BoxFit.cover),
                     ),
                     Container(
                       padding: EdgeInsets.only(left: 20, right: 10, bottom: 20),
@@ -86,63 +68,60 @@ class _VideoNewsPageState extends State<VideoNewsPage> {
                 ))));
   }
 
+  Widget _body(BuildContext context, List<Article> list) {
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverAppBar(
+          centerTitle: true,
+          title: Text(
+            'NEWS',
+            style: AppTheme.h2Style
+                .copyWith(color: Theme.of(context).colorScheme.primaryVariant),
+          ),
+          backgroundColor: Theme.of(context).backgroundColor,
+          pinned: true,
+        ),
+        SliverToBoxAdapter(
+            child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: PageView.builder(
+                  itemBuilder: (context, index) {
+                    return _headerNews(context, list[index]);
+                  },
+                  itemCount: 5,
+                ))),
+        SliverList(
+            delegate: SliverChildBuilderDelegate(
+                (context, index) => NewsCard(
+                      artical: list[index],
+                      isVideoNews: true,
+                    ),
+                childCount: list.length)),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         body: SafeArea(
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                centerTitle: true,
-                title: Text(
-                  'NEWS',
-                  style: AppTheme.h2Style.copyWith(
-                      color: Theme.of(context).colorScheme.primaryVariant),
-                ),
-                backgroundColor: Theme.of(context).backgroundColor,
-                pinned: true,
-              ),
-              StreamBuilder(
-                  stream: bloc.allNews,
-                  builder: (context, AsyncSnapshot<List<Article>> snapshot) {
-                    if (snapshot.hasData) {
-                      return SliverToBoxAdapter(
-                        child: snapshot.data.length == 0
-                            ? Container()
-                            : AspectRatio(
-                              aspectRatio: 16/9,
-                              child:PageView.builder(
-                                
-                              itemBuilder: (context,index){
-                                return _headerNews(snapshot.data[index]);
-                              },
-                              itemCount: 5,
-                              )
-                            )
-                      );
-                    } else {
-                      return SliverToBoxAdapter(
-                          child: Container(
-                        height: MediaQuery.of(context).size.height - 100,
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator(),
-                      ));
-                    }
-                  }),
-              StreamBuilder(
-                  stream: bloc.allNews,
-                  builder: (context, AsyncSnapshot<List<Article>> snapshot) =>
-                      SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                        (context, index) => NewsCard(
-                          artical: snapshot.data[index],
-                          isVideoNews: true,
-                        ),
-                        childCount: snapshot.hasData ? snapshot.data.length : 0,
-                      )))
-            ],
-          ),
-        ));
+            child: BlocBuilder<NewsBloc, NewsState>(builder: (context, state) {
+          if (state == null) {
+            return Center(child: Text('Null block'));
+          }
+          if (state is Failure) {
+            return Center(child: Text('Something went wrong'));
+          }
+          if (state is Loaded) {
+            if (state.items == null || state.items.isEmpty) {
+              return Text('No content avilable');
+            } else {
+              return _body(context, state.items);
+            }
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        })));
   }
 }

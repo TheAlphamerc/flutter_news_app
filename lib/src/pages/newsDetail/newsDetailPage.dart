@@ -1,27 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/src/commonWidget/bottomNavigationBar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_news_app/src/commonWidget/customWidget.dart';
-import 'package:flutter_news_app/src/helpers/constants.dart';
 import 'package:flutter_news_app/src/models/newsResponseModel.dart';
+import 'package:flutter_news_app/src/pages/homePage/bloc/bloc.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
-import 'package:flutter_news_app/src/blocks/newsBloc.dart';
 
-class NewsDetailPage extends StatefulWidget {
-  NewsDetailPage({Key key}) : super(key: key);
+import 'bloc/bloc.dart';
 
-  @override
-  _NewsDetailPageState createState() => _NewsDetailPageState();
-}
-
-class _NewsDetailPageState extends State<NewsDetailPage> {
-  Article article;
-  @override
-  void initState() {
-    article = bloc.selectedNews;
-    super.initState();
-  }
-
-  Widget _headerNews() {
+class NewsDetailPage extends StatelessWidget {
+  Widget _headerNews(BuildContext context, Article article) {
     return Stack(
       alignment: Alignment.topCenter,
       children: <Widget>[
@@ -65,47 +52,69 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
     );
   }
 
+  Widget _body(BuildContext context, Article article) {
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverToBoxAdapter(
+          child: _headerNews(context, article),
+        ),
+        SliverToBoxAdapter(
+            child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
+              Text(article.title, style: AppTheme.h1Style),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: <Widget>[
+                  Text(article.author ?? '', style: AppTheme.h6Style),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(article.getTime(), style: AppTheme.h6Style),
+                ],
+              ),
+              Divider(
+                height: 20,
+                thickness: 1,
+              ),
+              Text(article.content ?? '', style: AppTheme.h6Style)
+            ],
+          ),
+        ))
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          SliverToBoxAdapter(
-            child: _headerNews(),
-          ),
-          SliverToBoxAdapter(
-              child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(
-                  height: 10,
-                ),
-                Text(article.title, style: AppTheme.h1Style),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: <Widget>[
-                    Text(article.author ?? '', style: AppTheme.h6Style),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(article.getTime(), style: AppTheme.h6Style),
-                  ],
-                ),
-                Divider(
-                  height: 20,
-                  thickness: 1,
-                ),
-                Text(article.content ?? '', style: AppTheme.h6Style)
-              ],
-            ),
-          ))
-        ],
-      ),
-    ));
+    return Scaffold(body: SafeArea(child: BlocBuilder<DetailBloc, DetailState>(
+      builder: (context, state) {
+        if (state == null) {
+          return Center(child: Text('Null bloc'));
+        }
+        if (state is Failure) {
+          return Center(child: Text('Something went wrong'));
+        }
+        if (state is LoadedArticle) {
+          if (state.selectedArticle == null) {
+            return Text('No content avilable');
+          } else {
+            return _body(
+              context,
+              state.selectedArticle,
+            );
+          }
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    )));
   }
 }
