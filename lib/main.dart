@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_news_app/src/bloc/simple_bloc_delegate.dart';
+import 'package:flutter_news_app/src/commonWidget/bloc/bloc.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
 import 'src/helpers/routes.dart';
 import 'src/pages/homePage/bloc/bloc.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
                 NewsBloc(repository: Repository())..add(Fetch()),
           ),
           BlocProvider<DetailBloc>(create: (context) => DetailBloc()),
+          BlocProvider<NavigationBloc>(create: (context)=> NavigationBloc())
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
