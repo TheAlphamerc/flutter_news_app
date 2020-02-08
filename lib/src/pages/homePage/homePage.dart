@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_news_app/src/commonWidget/customWidget.dart';
 import 'package:flutter_news_app/src/models/newsResponseModel.dart';
@@ -25,16 +26,18 @@ class HomePage extends StatelessWidget {
                   child: customImage(article.urlToImage),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 20, right: 10, bottom: 20),
+                  padding:
+                      EdgeInsets.only(left: 20, right: 10, bottom: 20, top: 20),
+                  color: Colors.black26,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(article.title,
                           style: AppTheme.h1Style.copyWith(
-                              color: Theme.of(context).backgroundColor)),
+                              color: Theme.of(context).colorScheme.onSurface)),
                       Text(article.getTime(),
-                          style: AppTheme.subTitleStyle.copyWith(
-                              color: Theme.of(context).backgroundColor))
+                          style: AppTheme.subTitleStyle
+                              .copyWith(color: Theme.of(context).disabledColor))
                     ],
                   ),
                 )
@@ -44,17 +47,21 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _body(BuildContext context, List<Article> list, {NewsState state}) {
+  Widget _body(
+    BuildContext context,
+    List<Article> list, {
+    String type,
+  }) {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
           centerTitle: true,
           title: Text(
-            'NEWS',
+            '${type.toUpperCase()} NEWS',
             style: AppTheme.h2Style
                 .copyWith(color: Theme.of(context).colorScheme.primaryVariant),
           ),
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).bottomAppBarColor,
           pinned: true,
         ),
         SliverToBoxAdapter(
@@ -62,7 +69,10 @@ class HomePage extends StatelessWidget {
         ),
         SliverList(
             delegate: SliverChildBuilderDelegate(
-                (context, index) => NewsCard(artical: list[index]),
+                (context, index) => NewsCard(
+                      artical: list[index],
+                      type: type.toUpperCase(),
+                    ),
                 childCount: list.length))
       ],
     );
@@ -70,6 +80,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Theme.of(context).backgroundColor,
+        statusBarColor: Theme.of(context).backgroundColor));
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         body: SafeArea(
@@ -84,10 +97,7 @@ class HomePage extends StatelessWidget {
             if (state.items == null || state.items.isEmpty) {
               return Text('No content avilable');
             } else {
-              return _body(
-                context,
-                state.items,
-              );
+              return _body(context, state.items, type: state.type);
             }
           } else {
             return Center(child: CircularProgressIndicator());

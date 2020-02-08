@@ -14,7 +14,4 @@ class Opened extends NavigationState {
 
   @override
   List<Object> get props => [pageIndex];
-
-  @override
-  String toString() => 'Page Opened $pageIndex';
 }

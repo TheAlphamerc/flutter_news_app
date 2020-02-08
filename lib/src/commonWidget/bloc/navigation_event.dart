@@ -17,8 +17,4 @@ class Navigate extends NavigationEvent {
 
   @override
   List<Object> get props => [pageIndex];
-
-  @override
-  String toString() => 'Page Navigate $pageIndex';
-
 }

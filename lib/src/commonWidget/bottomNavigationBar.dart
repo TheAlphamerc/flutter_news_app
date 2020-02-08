@@ -10,33 +10,35 @@ class BottomNavigationBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationBloc, NavigationState>(
         builder: (context, state) {
-          if(state is Opened){
-             return  BottomNavigationBar(
-              showUnselectedLabels: false,
-              showSelectedLabels: false,
-              currentIndex: state.pageIndex,
-              fixedColor: Theme.of(context).primaryColorLight,
-              type: BottomNavigationBarType.fixed,
-              unselectedItemColor: Theme.of(context).primaryColor,
-              onTap: (pageIndex) {
-                
-                  BlocProvider.of<NavigationBloc>(context).add(Navigate(pageIndex: pageIndex));
-                 
+      if (state is Opened) {
+        return BottomNavigationBar(
+          backgroundColor: Theme.of(context).bottomAppBarColor,
+          showUnselectedLabels: false,
+          showSelectedLabels: false,
+          currentIndex: state.pageIndex,
+          fixedColor: Theme.of(context).primaryColor,
+          type: BottomNavigationBarType.fixed,
+          unselectedItemColor: Theme.of(context).disabledColor,
+          onTap: (pageIndex) {
+            BlocProvider.of<NavigationBloc>(context)
+                .add(Navigate(pageIndex: pageIndex));
 
-                controller.animateToPage(pageIndex,
-                    duration: Duration(milliseconds: 300), curve: Curves.linear);
-              },
-              items: [
-                BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.search), title: Text('Home')),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.play_arrow), title: Text('Home')),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.person), title: Text('Home')),
-              ],
-              elevation: 5,
-            );}
+            controller.animateToPage(pageIndex,
+                duration: Duration(milliseconds: 300), curve: Curves.linear);
+          },
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home), title: Text('Home')),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.play_circle_outline), title: Text('Video')),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.category), title: Text('Category')),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person), title: Text('Profile')),
+          ],
+          elevation: 5,
+        );
+      }
     });
   }
 }

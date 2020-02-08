@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_news_app/src/commonWidget/customWidget.dart';
+import 'package:flutter_news_app/src/theme/bloc/bloc.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -68,7 +70,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget _settingRow(
       BuildContext context, IconData icon1, String text, bool isEnable,
-      {Color color = Colors.black}) {
+      {Color color = Colors.black, int index = 0}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 0),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -79,20 +81,24 @@ class ProfilePage extends StatelessWidget {
         children: <Widget>[
           Icon(
             icon1,
-            color: color,
           ),
           SizedBox(width: 10),
           Text(text,
               style: AppTheme.h4Style.copyWith(
                 fontWeight: FontWeight.bold,
-                color: color,
               )),
           Expanded(child: SizedBox()),
           isEnable == null
               ? Container()
               : Switch(
                   activeColor: Theme.of(context).primaryColor,
-                  onChanged: (_) {},
+                  inactiveTrackColor: Theme.of(context).disabledColor,
+                  onChanged: (value) {
+                    if (index == 1) {
+                      BlocProvider.of<ThemeBloc>(context)
+                          .add(isEnable ? DarkMode() : LightMode());
+                    }
+                  },
                   value: isEnable,
                 )
         ],
@@ -125,35 +131,47 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverToBoxAdapter(
-                child: _headerWidget(context),
-              ),
-              SliverToBoxAdapter(
-                  child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    _settingRow(
-                        context, Icons.lightbulb_outline, 'Night', true),
-                    _settingRow(
-                        context, Icons.notifications, 'Notification', false),
-                    // SizedBox(height: 10),
-                    _settingRow(context, Icons.share, 'Social Media', false),
-                    SizedBox(height: 5),
-                    Divider(
-                      height: 0,
+        body: BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, state) {
+            bool val = false;
+            if (state is SelectedTheme) {
+              val = state.themeType == ThemeType.Light ? true : false;
+            }
+            return SafeArea(
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: _headerWidget(context),
+                  ),
+                  SliverToBoxAdapter(
+                      child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        _settingRow(
+                            context, Icons.lightbulb_outline, 'Night', val,
+                            index: 1),
+                        _settingRow(context, Icons.notifications,
+                            'Notification', false),
+                        // SizedBox(height: 10),
+                        _settingRow(
+                            context, Icons.share, 'Social Media', false),
+                        SizedBox(height: 5),
+                        Divider(
+                          indent: 20,
+                          endIndent: 20,
+                          height: 0,
+                        ),
+                        SizedBox(height: 5),
+                        _logout(context, Icons.exit_to_app, 'Logout'),
+                      ],
                     ),
-                    SizedBox(height: 5),
-                    _logout(context, Icons.exit_to_app, 'Logout'),
-                  ],
-                ),
-              ))
-            ],
-          ),
+                  ))
+                ],
+              ),
+            );
+          },
         ));
   }
 }

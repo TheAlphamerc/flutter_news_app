@@ -8,7 +8,9 @@ import 'package:flutter_news_app/src/theme/theme.dart';
 class NewsCard extends StatelessWidget {
   final Article artical;
   final bool isVideoNews;
-  const NewsCard({Key key, this.artical, this.isVideoNews = false})
+  final String type;
+  const NewsCard(
+      {Key key, this.artical, this.isVideoNews = false, this.type = ''})
       : super(key: key);
   Widget _playWidget(BuildContext context) {
     return SizedBox(
@@ -20,7 +22,7 @@ class NewsCard extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).backgroundColor),
+                    color: Theme.of(context).bottomAppBarColor),
                 child: Icon(
                   Icons.play_arrow,
                   color: Theme.of(context).disabledColor,
@@ -32,8 +34,8 @@ class NewsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          final detailBloc = BlocProvider.of<DetailBloc>(context);
-          detailBloc.add(SelectNewsForDetail(article: artical));
+          BlocProvider.of<DetailBloc>(context)
+              .add(SelectNewsForDetail(article: artical));
           Navigator.pushNamed(context, '/detail');
         },
         child: Container(
@@ -70,7 +72,7 @@ class NewsCard extends StatelessWidget {
                     height: 52,
                     child: Text(
                       artical.title,
-                      style: AppTheme.h6Style,
+                      style: Theme.of(context).textTheme.body1,
                       overflow: TextOverflow.fade,
                     ),
                   ),
@@ -84,7 +86,7 @@ class NewsCard extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                         ),
                         child: Text(
-                          'Tips',
+                          '$type',
                           style: AppTheme.h6Style.copyWith(
                               color: Theme.of(context).colorScheme.onPrimary),
                         ),

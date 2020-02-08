@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_news_app/src/theme/color/dark_color.dart';
 
-import 'lightColor.dart';
+import 'color/lightColor.dart';
 
 class AppTheme {
+  const AppTheme();
   static ThemeData lightTheme = ThemeData(
     primarySwatch: Colors.blue,
     backgroundColor: LightColor.background,
@@ -15,6 +17,8 @@ class AppTheme {
     cardTheme: CardTheme(color: LightColor.background),
     textTheme: TextTheme(display1: TextStyle(color: LightColor.black)),
     iconTheme: IconThemeData(color: LightColor.lightblack),
+    bottomAppBarColor: LightColor.background,
+    dividerColor: LightColor.lightGrey,
     colorScheme: ColorScheme(
         primary: LightColor.purple,
         primaryVariant: LightColor.purple,
@@ -24,10 +28,37 @@ class AppTheme {
         background: LightColor.background,
         error: Colors.red,
         onPrimary: LightColor.Darker,
-        onSecondary: LightColor.Darker,
-        onSurface: LightColor.titleTextColor,
+        onSecondary: LightColor.background,
+        onSurface: LightColor.Darker,
         onBackground: LightColor.titleTextColor,
         onError: LightColor.titleTextColor,
+        brightness: Brightness.dark),
+  );
+  static ThemeData darkTheme = ThemeData(
+    primarySwatch: Colors.blue,
+    backgroundColor: DarkColor.background,
+    primaryColor: DarkColor.purple,
+    accentColor: DarkColor.lightblack,
+    primaryColorDark: DarkColor.Darker,
+    primaryColorLight: DarkColor.brighter,
+    cardTheme: CardTheme(color: DarkColor.background),
+    textTheme: TextTheme(body1: TextStyle(color: DarkColor.titleTextColor)),
+    iconTheme: IconThemeData(color: DarkColor.lightblack),
+    bottomAppBarColor: DarkColor.lightblack,
+    dividerColor: LightColor.subTitleTextColor,
+    colorScheme: ColorScheme(
+        primary: DarkColor.purple,
+        primaryVariant: DarkColor.purple,
+        secondary: DarkColor.lightBlue,
+        secondaryVariant: DarkColor.darkBlue,
+        surface: DarkColor.background,
+        background: DarkColor.background,
+        error: Colors.red,
+        onPrimary: DarkColor.Brighter,
+        onSecondary: DarkColor.Darker,
+        onSurface: DarkColor.white,
+        onBackground: DarkColor.titleTextColor,
+        onError: DarkColor.titleTextColor,
         brightness: Brightness.dark),
   );
 
@@ -36,18 +67,11 @@ class AppTheme {
   static TextStyle subTitleStyle =
       const TextStyle(color: LightColor.subTitleTextColor, fontSize: 12);
 
-  static TextStyle h1Style = const TextStyle(
-      color: LightColor.titleTextColor,
-      fontSize: 24,
-      fontWeight: FontWeight.bold);
-  static TextStyle h2Style =
-      const TextStyle(color: LightColor.titleTextColor, fontSize: 22);
-  static TextStyle h3Style =
-      const TextStyle(color: LightColor.titleTextColor, fontSize: 20);
-  static TextStyle h4Style =
-      const TextStyle(color: LightColor.titleTextColor, fontSize: 18);
-  static TextStyle h5Style =
-      const TextStyle(color: LightColor.titleTextColor, fontSize: 16);
-  static TextStyle h6Style =
-      const TextStyle(color: LightColor.titleTextColor, fontSize: 14);
+  static TextStyle h1Style =
+      const TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
+  static TextStyle h2Style = const TextStyle(fontSize: 22);
+  static TextStyle h3Style = const TextStyle(fontSize: 20);
+  static TextStyle h4Style = const TextStyle(fontSize: 18);
+  static TextStyle h5Style = const TextStyle(fontSize: 16);
+  static TextStyle h6Style = const TextStyle(fontSize: 14);
 }

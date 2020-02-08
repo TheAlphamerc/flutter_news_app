@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/src/models/newsResponseModel.dart';
 
-abstract class NewsState extends Equatable{
+abstract class NewsState extends Equatable {
   const NewsState();
 
   @override
@@ -13,9 +13,9 @@ class Loading extends NewsState {}
 
 class Loaded extends NewsState {
   final List<Article> items;
-  
+  final String type;
 
-  const Loaded({@required this.items});
+  const Loaded({@required this.items, this.type});
 
   @override
   List<Object> get props => [items];

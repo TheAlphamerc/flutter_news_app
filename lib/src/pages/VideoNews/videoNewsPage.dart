@@ -4,26 +4,25 @@ import 'package:flutter_news_app/src/commonWidget/customWidget.dart';
 import 'package:flutter_news_app/src/models/newsResponseModel.dart';
 import 'package:flutter_news_app/src/pages/homePage/bloc/bloc.dart';
 import 'package:flutter_news_app/src/pages/homePage/widget/newsCard.dart';
+import 'package:flutter_news_app/src/pages/newsDetail/bloc/bloc.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
 
 class VideoNewsPage extends StatelessWidget {
   Widget _headerNews(BuildContext context, Article article) {
     return InkWell(
         onTap: () {
+          BlocProvider.of<DetailBloc>(context)
+              .add(SelectNewsForDetail(article: article));
           Navigator.pushNamed(context, '/detail');
         },
         child: Container(
-            margin: EdgeInsets.only(left: 20, right: 20, bottom: 30),
             width: MediaQuery.of(context).size.width * 6,
             child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(0),
                 child: Stack(
                   alignment: Alignment.bottomCenter,
                   children: <Widget>[
-                    Hero(
-                      tag: 'headerImage',
-                      child: customImage(article.urlToImage, fit: BoxFit.cover),
-                    ),
+                    customImage(article.urlToImage, fit: BoxFit.fitWidth),
                     Container(
                       padding: EdgeInsets.only(left: 20, right: 10, bottom: 20),
                       alignment: Alignment.bottomCenter,
@@ -33,10 +32,11 @@ class VideoNewsPage extends StatelessWidget {
                         children: <Widget>[
                           Text(article.title,
                               style: AppTheme.h2Style.copyWith(
-                                  color: Theme.of(context).backgroundColor)),
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface)),
                           Text(article.getTime(),
                               style: AppTheme.subTitleStyle.copyWith(
-                                  color: Theme.of(context).backgroundColor))
+                                  color: Theme.of(context).disabledColor))
                         ],
                       ),
                     ),
@@ -60,7 +60,7 @@ class VideoNewsPage extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).backgroundColor),
+                    color: Theme.of(context).bottomAppBarColor),
                 child: Icon(
                   Icons.play_arrow,
                   color: Theme.of(context).disabledColor,
@@ -68,17 +68,21 @@ class VideoNewsPage extends StatelessWidget {
                 ))));
   }
 
-  Widget _body(BuildContext context, List<Article> list) {
+  Widget _body(
+    BuildContext context,
+    List<Article> list, {
+    String type,
+  }) {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
           centerTitle: true,
           title: Text(
-            'NEWS',
+            '${type.toUpperCase()} NEWS',
             style: AppTheme.h2Style
-                .copyWith(color: Theme.of(context).colorScheme.primaryVariant),
+                .copyWith(color: Theme.of(context).primaryColor),
           ),
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).bottomAppBarColor,
           pinned: true,
         ),
         SliverToBoxAdapter(
@@ -95,6 +99,7 @@ class VideoNewsPage extends StatelessWidget {
                 (context, index) => NewsCard(
                       artical: list[index],
                       isVideoNews: true,
+                      type: type.toUpperCase(),
                     ),
                 childCount: list.length)),
       ],
@@ -117,7 +122,7 @@ class VideoNewsPage extends StatelessWidget {
             if (state.items == null || state.items.isEmpty) {
               return Text('No content avilable');
             } else {
-              return _body(context, state.items);
+              return _body(context, state.items, type: state.type);
             }
           } else {
             return Center(child: CircularProgressIndicator());

@@ -14,7 +14,9 @@ class NewsDetailPage extends StatelessWidget {
       children: <Widget>[
         Hero(
           tag: 'headerImage',
-          child: customImage(article.urlToImage),
+          child: article.urlToImage == null || article.urlToImage.isEmpty
+              ? Container()
+              : customImage(article.urlToImage),
         ),
         Container(
           padding: EdgeInsets.only(left: 0, right: 10, bottom: 20),
@@ -84,7 +86,7 @@ class NewsDetailPage extends StatelessWidget {
                 height: 20,
                 thickness: 1,
               ),
-              Text(article.content ?? '', style: AppTheme.h6Style)
+              Text(article.content ?? '', style: AppTheme.h4Style)
             ],
           ),
         ))
@@ -94,27 +96,29 @@ class NewsDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child: BlocBuilder<DetailBloc, DetailState>(
-      builder: (context, state) {
-        if (state == null) {
-          return Center(child: Text('Null bloc'));
-        }
-        if (state is Failure) {
-          return Center(child: Text('Something went wrong'));
-        }
-        if (state is LoadedArticle) {
-          if (state.selectedArticle == null) {
-            return Text('No content avilable');
-          } else {
-            return _body(
-              context,
-              state.selectedArticle,
-            );
-          }
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      },
-    )));
+    return Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: SafeArea(child: BlocBuilder<DetailBloc, DetailState>(
+          builder: (context, state) {
+            if (state == null) {
+              return Center(child: Text('Null bloc'));
+            }
+            if (state is Failure) {
+              return Center(child: Text('Something went wrong'));
+            }
+            if (state is LoadedArticle) {
+              if (state.selectedArticle == null) {
+                return Text('No content avilable');
+              } else {
+                return _body(
+                  context,
+                  state.selectedArticle,
+                );
+              }
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        )));
   }
 }
