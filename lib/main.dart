@@ -20,10 +20,10 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<NewsBloc>(
             create: (context) =>
-                NewsBloc(repository: Repository())..add(Fetch()),
+                NewsBloc(repository: Repository())..add(Fetch(type: 'General')),
           ),
           BlocProvider<DetailBloc>(create: (context) => DetailBloc()),
-          BlocProvider<NavigationBloc>(create: (context)=> NavigationBloc())
+          BlocProvider<NavigationBloc>(create: (context)=> NavigationBloc()),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',

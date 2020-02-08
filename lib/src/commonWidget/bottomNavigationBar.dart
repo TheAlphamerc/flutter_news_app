@@ -20,8 +20,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
               unselectedItemColor: Theme.of(context).primaryColor,
               onTap: (pageIndex) {
                 
-                 final detailBloc = BlocProvider.of<NavigationBloc>(context);
-                 detailBloc.add(Navigate(pageIndex: pageIndex));
+                  BlocProvider.of<NavigationBloc>(context).add(Navigate(pageIndex: pageIndex));
+                 
 
                 controller.animateToPage(pageIndex,
                     duration: Duration(milliseconds: 300), curve: Curves.linear);
