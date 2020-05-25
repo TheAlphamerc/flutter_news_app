@@ -1,5 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_networkimage/provider.dart';
 
 Widget customText(String msg,
     {TextStyle style,
@@ -51,16 +51,7 @@ Image customImage(String path, {BoxFit fit = BoxFit.contain}) {
 }
 
 dynamic customAdvanceNetworkImage(String path) {
-  return AdvancedNetworkImage(
-    path,
-    useDiskCache: true,
-    printError: true,
-    //  fallbackAssetImage: 'assets/images/pokeball.png',
-    loadFailedCallback: () {
-      print(' Image load failed' + path);
-    },
-    cacheRule: CacheRule(maxAge: const Duration(days: 7)),
-  );
+  return CachedNetworkImageProvider(path);
 }
 
 double getFontSize(BuildContext context, double size) {
