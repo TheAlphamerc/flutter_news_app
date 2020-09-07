@@ -43,6 +43,8 @@ I welcome and encourage all pull requests. It usually will take me within 24-48 
 >
 > * [PayPal](https://www.paypal.me/TheAlphamerc/)
 
+> You can also nominate me for Github Star developer program https://stars.github.com/nominate
+
 ## News API Credit
 https://newsapi.org/
 
