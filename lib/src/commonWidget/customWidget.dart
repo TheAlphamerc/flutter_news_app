@@ -14,7 +14,7 @@ Widget customText(String msg,
   } else {
     if (context != null && style != null) {
       var fontSize =
-          style.fontSize ?? Theme.of(context).textTheme.body1.fontSize;
+          style.fontSize ?? Theme.of(context).textTheme.bodyText1.fontSize;
       style = style.copyWith(
           fontSize: fontSize - (fullWidth(context) <= 375 ? 2 : 0));
     }
@@ -47,6 +47,10 @@ Image customImage(String path, {BoxFit fit = BoxFit.contain}) {
   return Image(
     image: customAdvanceNetworkImage(path),
     fit: fit,
+    errorBuilder:
+        (BuildContext context, Object exception, StackTrace stackTrace) {
+      return Container();
+    },
   );
 }
 

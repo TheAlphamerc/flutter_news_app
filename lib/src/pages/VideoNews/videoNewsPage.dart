@@ -22,7 +22,9 @@ class VideoNewsPage extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.bottomCenter,
                   children: <Widget>[
-                    customImage(article.urlToImage, fit: BoxFit.fitWidth),
+                    article.urlToImage == null
+                        ? Container()
+                        : customImage(article.urlToImage, fit: BoxFit.fitWidth),
                     Container(
                       padding: EdgeInsets.only(left: 20, right: 10, bottom: 20),
                       alignment: Alignment.bottomCenter,

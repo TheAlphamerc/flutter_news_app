@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class LightColor {
   static const Color background = Color(0XFFFFFFFF);
-  static const Color purple = Color(0XFFA89FDE);
+  static const Color purple = Color(0xFF8E7FE0);
   static const Color lightpurple = Color(0XFFC9B3EA);
   static const Color darkpurple = Color(0XFF83679A);
   static const Color titleTextColor = const Color(0xff130F11);

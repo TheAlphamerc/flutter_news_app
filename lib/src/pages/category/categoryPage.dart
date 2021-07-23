@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_news_app/src/commonWidget/bloc/bloc.dart';
 import 'package:flutter_news_app/src/commonWidget/customWidget.dart';
 import 'package:flutter_news_app/src/pages/homePage/bloc/bloc.dart';
-import 'package:flutter_news_app/src/pages/newsDetail/bloc/bloc.dart';
 import 'package:flutter_news_app/src/theme/theme.dart';
 
 class CategoryPage extends StatefulWidget {

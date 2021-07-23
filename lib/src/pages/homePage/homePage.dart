@@ -23,21 +23,33 @@ class HomePage extends StatelessWidget {
               children: <Widget>[
                 Hero(
                   tag: 'headerImage',
-                  child: customImage(article.urlToImage),
+                  child: article.urlToImage == null
+                      ? Container()
+                      : customImage(article.urlToImage),
                 ),
                 Container(
                   padding:
                       EdgeInsets.only(left: 20, right: 10, bottom: 20, top: 20),
-                  color: Colors.black26,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [Colors.black, Colors.transparent],
+                      // stops: [.1, .9],
+                    ),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(article.title,
-                          style: AppTheme.h1Style.copyWith(
+                          style: AppTheme.h4Style.copyWith(
+                              fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onSurface)),
-                      Text(article.getTime(),
-                          style: AppTheme.subTitleStyle
-                              .copyWith(color: Theme.of(context).disabledColor))
+                      Text(
+                        article.getTime(),
+                        style: AppTheme.subTitleStyle.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface),
+                      )
                     ],
                   ),
                 )
@@ -84,24 +96,28 @@ class HomePage extends StatelessWidget {
         systemNavigationBarColor: Theme.of(context).backgroundColor,
         statusBarColor: Theme.of(context).backgroundColor));
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: SafeArea(
-            child: BlocBuilder<NewsBloc, NewsState>(builder: (context, state) {
-          if (state == null) {
-            return Center(child: Text('Null block'));
-          }
-          if (state is Failure) {
-            return Center(child: Text('Something went wrong'));
-          }
-          if (state is Loaded) {
-            if (state.items == null || state.items.isEmpty) {
-              return Text('No content avilable');
-            } else {
-              return _body(context, state.items, type: state.type);
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: SafeArea(
+        child: BlocBuilder<NewsBloc, NewsState>(
+          builder: (context, state) {
+            if (state == null) {
+              return Center(child: Text('Null block'));
             }
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        })));
+            if (state is Failure) {
+              return Center(child: Text('Something went wrong'));
+            }
+            if (state is Loaded) {
+              if (state.items == null || state.items.isEmpty) {
+                return Text('No content avilable');
+              } else {
+                return _body(context, state.items, type: state.type);
+              }
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+      ),
+    );
   }
 }

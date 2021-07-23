@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -28,8 +28,8 @@ dependencies:
   rxdart: ^0.23.1
   http:
   intl: ^0.16.1
-  equatable: ^1.0.3
-  flutter_bloc: ^3.2.0
+  equatable: ^2.0.0
+  flutter_bloc: ^7.0.0
 
 dev_dependencies:
   flutter_test:

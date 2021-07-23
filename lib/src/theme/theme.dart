@@ -15,10 +15,11 @@ class AppTheme {
     primaryColorDark: LightColor.Darker,
     primaryColorLight: LightColor.brighter,
     cardTheme: CardTheme(color: LightColor.background),
-    textTheme: TextTheme(display1: TextStyle(color: LightColor.black)),
+    textTheme: ThemeData.light().textTheme,
     iconTheme: IconThemeData(color: LightColor.lightblack),
     bottomAppBarColor: LightColor.background,
     dividerColor: LightColor.lightGrey,
+    disabledColor: LightColor.darkgrey,
     colorScheme: ColorScheme(
         primary: LightColor.purple,
         primaryVariant: LightColor.purple,
@@ -42,7 +43,9 @@ class AppTheme {
     primaryColorDark: DarkColor.Darker,
     primaryColorLight: DarkColor.brighter,
     cardTheme: CardTheme(color: DarkColor.background),
-    textTheme: TextTheme(body1: TextStyle(color: DarkColor.titleTextColor)),
+    textTheme: ThemeData.dark()
+        .textTheme
+        .copyWith(bodyText1: TextStyle(color: DarkColor.titleTextColor)),
     iconTheme: IconThemeData(color: DarkColor.lightblack),
     bottomAppBarColor: DarkColor.lightblack,
     dividerColor: LightColor.subTitleTextColor,
@@ -54,7 +57,7 @@ class AppTheme {
         surface: DarkColor.background,
         background: DarkColor.background,
         error: Colors.red,
-        onPrimary: DarkColor.Brighter,
+        onPrimary: DarkColor.white,
         onSecondary: DarkColor.Darker,
         onSurface: DarkColor.white,
         onBackground: DarkColor.titleTextColor,

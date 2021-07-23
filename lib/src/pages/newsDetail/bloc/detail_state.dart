@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_news_app/src/models/newsResponseModel.dart';
 
-abstract class DetailState extends Equatable{
+abstract class DetailState extends Equatable {
   const DetailState();
 
   @override
@@ -17,7 +16,7 @@ class LoadedArticle extends DetailState {
   final Article selectedArticle;
 
   LoadedArticle({this.selectedArticle});
-  
+
   @override
   List<Object> get props => [selectedArticle];
 

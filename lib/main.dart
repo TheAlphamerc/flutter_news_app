@@ -11,7 +11,7 @@ import 'src/pages/newsDetail/bloc/bloc.dart';
 import 'src/resources/repository.dart';
 
 void main() {
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+  BlocObserver observer = SimpleBlocObserver();
   runApp(MyApp());
 }
 
@@ -20,33 +20,34 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData apptheme;
     return MultiBlocProvider(
-        providers: [
-          BlocProvider<NewsBloc>(
-            create: (context) =>
-                NewsBloc(repository: Repository())..add(Fetch(type: 'General')),
-          ),
-          BlocProvider<DetailBloc>(create: (context) => DetailBloc()),
-          BlocProvider<NavigationBloc>(create: (context) => NavigationBloc()),
-          BlocProvider<ThemeBloc>(create: (context) => ThemeBloc()),
-        ],
-        child: BlocBuilder<ThemeBloc, ThemeState>(
-          builder: (context, state) {
-            if (state is SelectedTheme) {
-              apptheme = state.themeType != ThemeType.Light
-                  ? AppTheme.lightTheme
-                  : AppTheme.darkTheme;
-            }
-            return Builder(
-              builder: (context) {
-                return MaterialApp(
-                  title: 'Flutter Demo',
-                  theme: apptheme,
-                  debugShowCheckedModeBanner: false,
-                  routes: Routes.getRoute(),
-                );
-              },
-            );
-          },
-        ));
+      providers: [
+        BlocProvider<NewsBloc>(
+          create: (context) =>
+              NewsBloc(repository: Repository())..add(Fetch(type: 'General')),
+        ),
+        BlocProvider<DetailBloc>(create: (context) => DetailBloc()),
+        BlocProvider<NavigationBloc>(create: (context) => NavigationBloc()),
+        BlocProvider<ThemeBloc>(create: (context) => ThemeBloc()),
+      ],
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          if (state is SelectedTheme) {
+            apptheme = state.themeType != ThemeType.Light
+                ? AppTheme.lightTheme
+                : AppTheme.darkTheme;
+          }
+          return Builder(
+            builder: (context) {
+              return MaterialApp(
+                title: 'Flutter Demo',
+                theme: apptheme,
+                debugShowCheckedModeBanner: false,
+                routes: Routes.getRoute(),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }
